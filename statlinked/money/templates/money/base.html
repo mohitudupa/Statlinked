@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Expense Tracking">
+
+    {% load staticfiles %}
+    <link rel="stylesheet" media="screen" href="{% static 'money/style.css' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'money/images/152ico.png' %}">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="{% static 'money/images/144ico.png' %}">
+    <link rel="icon" href="{% static 'money/images/32ico.png' %}" sizes="32x32">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.2/css/materialize.min.css">-->
+
+    <style>
+        html{
+            font-family: "Roboto", sans serif;
+            font-weight: 300;
+            }
+    </style>
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+</head>
+<body>
+
+    <div>
+        <nav class="nav-extended white">
+            <div class="nav-wrapper">
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons black-text">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    {% block nav %}
+
+                    {% endblock %}
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    {% block side_nav %}
+
+                    {% endblock %}
+                </ul>
+            </div>
+            <div class="nav-content teal darken-3">
+                <div class="section">
+                    <div class="container">
+                        {% block bread %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <footer class="page-footer teal darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Footer title.....</h5>
+                    <p class="grey-text text-lighten-4">Footer content...</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        {% block footer %}
+
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2018 Copyright Text
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.2/js/materialize.min.js"></script>-->
+    {% load staticfiles %}
+    <script src="{% static 'money/init.js' %}"></script>
+
+</body>
+</html>

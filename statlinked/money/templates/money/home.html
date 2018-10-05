@@ -1,0 +1,471 @@
+{% extends "money/base.html" %}
+
+{% block title %}
+    Statlinked - Money
+{% endblock %}
+
+{% block bread %}
+    <a href="{% url 'home:hub' %}" class="breadcrumb">Hub</a>
+    <a href="" class="breadcrumb">Home</a>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="{% url 'home:hub' %}"><i class="material-icons prefix black-text">receipt</i></a></li>
+{% endblock %}
+
+{% block side_nav %}
+    <li><a href="{% url 'home:hub' %}"><i class="material-icons prefix black-text">receipt</i></a></li>
+{% endblock %}
+
+{% block body %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+    {% load staticfiles %}
+    <style>
+        #particles-js{
+        width: 100%;
+        height: 500px%;
+        {% load staticfiles %}
+        background-image: url('{% static 'home/images/Money.png' %}');
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    </style>
+    <div class="fixed-action-btn">
+        <a onclick="$('#modal_add').modal('open');" class="btn-floating btn-large teal">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+    </div>
+    <div id="modal_add" class="modal teal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <div class="section">
+                        <form class="card-panel" action="{% url 'money:add_bill' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">title</i>
+                                    <select id="add_tag" name="tag">
+                                        <option value="misc">Misc</option>
+                                        <option value="food">Food</option>
+                                        <option value="utilities">Utilities</option>
+                                        <option value="transport">Transport</option>
+                                        <option value="taxes">Taxes</option>
+                                        <option value="clothing">Clothing</option>
+                                        <option value="medical">Medical</option>
+                                        <option value="repairs">Repairs</option>
+                                    </select>
+                                    <label for="add_tag">Tag</label>
+                                </div>
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="add_amount" type="text" class="validate" name="amount" value="">
+                                    <label for="edit_amount">Amount</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="add_description" type="text" class="validate" name="description" value="">
+                                    <label for="edit_description">Description</label>
+                                </div>
+                            </div>
+                            <div class="center">
+                                <button class="btn waves-effect waves-light teal" type="submit" name="action">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <div id="modal_edit" class="modal teal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <div class="section">
+                        <form class="card-panel" action="{% url 'money:edit_bill' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">title</i>
+                                    <select id="edit_tag" name="tag">
+                                        <option value="misc">Misc</option>
+                                        <option value="food">Food</option>
+                                        <option value="utilities">Utilities</option>
+                                        <option value="transport">Transport</option>
+                                        <option value="taxes">Taxes</option>
+                                        <option value="clothing">Clothing</option>
+                                        <option value="medical">Medical</option>
+                                        <option value="repairs">Repairs</option>
+                                    </select>
+                                    <label for="edit_tag">Tag</label>
+                                </div>
+                                <div class="input-field col s12 m6 l6">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="edit_amount" type="text" class="validate" name="amount" value="">
+                                    <label for="edit_amount">Amount</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="edit_description" type="text" class="validate" name="description" value="">
+                                    <label for="edit_description">Description</label>
+                                </div>
+                            </div>
+                            <div class="center">
+                                <button id="edit_submit" class="btn waves-effect waves-light teal" type="submit" name="action" value = "">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <script>
+        function edit(id){
+            var tag = document.getElementById('tag' + id).innerHTML;
+            var description = document.getElementById('description' + id).innerHTML;
+            var amount = document.getElementById('amount' + id).innerHTML;
+            document.getElementById('edit_tag').value = tag;
+            document.getElementById('edit_description').value = description;
+            document.getElementById('edit_amount').value = amount;
+            document.getElementById('edit_submit').value = id;
+            $('#modal_edit').modal('open');
+            Materialize.updateTextFields();
+        }
+    </script>
+
+    <div id="modal_del" class="modal teal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <div class="section">
+                        <form class="card-panel" action="{% url 'money:del_bill' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="center">
+                                <p>Are you sure you want to delete?</p>
+                                <button id="del_submit" class="btn waves-effect waves-light teal" type="submit" name="action" value="">Yes
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <script>
+        function del(id){
+            document.getElementById('del_submit').value = id;
+            $('#modal_del').modal('open');
+        }
+    </script>
+
+    {% load staticfiles %}
+    <div class="container-for-images">
+        <div id="particles-js"></div>
+        <div class="centered-text-on-images">
+            <div class="row white-text">
+                <div class="col s12">
+                    <p>Keep track of all your spending</p>
+                </div>
+                <div class="row"></div>
+                <div class="col s12">
+                    <p>access them from anywhere</p><br>
+                </div>
+                <div class="col s12">
+                    <a onclick="$('#modal_add').modal('open');" class="waves-effect waves-light btn">Add Bill</a>
+                </div>
+                <div class="row"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="card teal white-text">
+            <div class="card-content">Graphs and charts</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <ul id="tabs-swipe-demo" class="tabs">
+                <li class="tab col s6 m4 l4 tabs-fixed-width"><a class="active" href="#test-swipe-1">Month View</a></li>
+                <li class="tab col s6 m4 l4 tabs-fixed-width"><a href="#test-swipe-2">Day View</a></li>
+                <li class="tab col s6 m4 l4 tabs-fixed-width"><a href="#test-swipe-3">Update Goal</a></li>
+            </ul>
+        </div>
+        <div id="test-swipe-1" style="height: 100%; width: 100%">
+            <div class="col s12 m12 l6">
+                <canvas id="myChart0" width="100%"></canvas>
+            </div>
+            <div class="col s12 m12 l6">
+                <div class="card teal">
+                    <div class="card-content white-text">
+                        <span class="card-title">Monthly Expenses</span>
+                        <p>This is a chart representing your expenses this month for<br><br> Food,<br><br> Utilities,<br><br> Clothing,<br><br> Transport,<br><br> Taxes,<br><br> Misc,<br><br> Medical and<br><br> Repairs </p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="test-swipe-2" style="height: 100%; width: 100%">
+            <div class="col s12 m12 l6">
+                <canvas id="myChart1" width="100%"></canvas>
+            </div>
+            <div class="col s12 m12 l6">
+                <div class="card teal">
+                    <div class="card-content white-text">
+                        <span class="card-title">Monthly Expenses</span>
+                        <p>This is a chart representing your expenses this month for<br><br> Food,<br><br> Utilities,<br><br> Clothing,<br><br> Transport,<br><br> Taxes,<br><br> Misc,<br><br> Medical and<br><br> Repairs </p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="test-swipe-3" style="height: 100%; width: 100%">
+            <div class="col s12 m12 l6">
+                <div class="card teal">
+                    <div class="card-content">
+                        <span class="card-title white-text">Update Goal</span>
+                        <form class="card-panel" action="{% url 'money:update_goal' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="goal" type="text" class="validate" name="goal" value="{{ stats.goal }}">
+                                    <label for="goal">New Goal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s6">
+                                    <input type="checkbox" class="filled-in" id="delete" name="delete" value="test"/>
+                                    <label for="delete">Reset Bills and Stats</label>
+                                </div>
+                                <div class="col s6 center">
+                                <button class="btn waves-effect waves-light teal" type="submit" name="action" value="">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m12 l6">
+                <div class="card teal">
+                    <div class="card-content">
+                        <span class="card-title white-text">History</span>
+                        <form class="card-panel" action="{% url 'money:history' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12 m12 l12">
+                                    <i class="material-icons prefix">title</i>
+                                    <select id="month" name="month">
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                    <label for="month">Month</label>
+                                </div>
+                            </div>
+                            <div class="row center">
+                                <button class="btn waves-effect waves-light teal" type="submit" name="action" value="">Search
+                                    <i class="material-icons right">search</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var ctx = document.getElementById("myChart0").getContext('2d');
+
+        var remaining =  {{ stats.goal }} - {{ stats.m_food }} - {{ stats.m_utilities }} - {{ stats.m_clothing }} - {{ stats.m_transport }} - {{ stats.m_taxes }} - {{ stats.m_misc }} - {{ stats.m_medical }} - {{ stats.m_repairs }}
+        if(remaining < 0)   remaining = 0
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ["Food", "Utilities", "Clothing", "Transport", "Taxes", "Misc", "Medical", "Repairs", "Remaining"],
+                datasets: [{
+                    data: [{{ stats.m_food }}, {{ stats.m_utilities }}, {{ stats.m_clothing }}, {{ stats.m_transport }}, {{ stats.m_taxes }}, {{ stats.m_misc }}, {{ stats.m_medical }}, {{ stats.m_repairs }}, remaining],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(103, 102, 255, 1)',
+                        'rgba(153, 152, 255, 1)',
+                        'rgba(153, 102, 200, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                }]
+            },
+        });
+
+        var ctx = document.getElementById("myChart1").getContext('2d');
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30"],
+                datasets: [{
+                    label: 'Money Spent',
+                    data: [{{ stats.spent_5 }}, {{ stats.spent_10 }}, {{ stats.spent_15 }}, {{ stats.spent_20 }}, {{ stats.spent_25 }}, {{ stats.spent_30 }}],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 1)',
+                    ],
+                    lineTension: 0.2,
+                }]
+            },
+        });
+    </script>
+
+    <div class="row">
+        <div class="card teal white-text">
+            <div class="card-content">Bills</div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="row">
+            {% for bill in bills %}
+                <div class="col s12 m4 l3">
+                    <div class="card teal">
+                        <div class="card-content white-text" style="height: 150px">
+                            <span class="right">{{ bill.written_date.day }}-{{ bill.written_date.month }}-{{ bill.written_date.year }}</span>
+                            <span id="tag{{ forloop.counter }}" class="card-title flow-text">{{ bill.tag }}</span>
+                            <p id="description{{ forloop.counter }}" class="">{{ bill.description }}</p><br>
+                            <p id="amount{{ forloop.counter }}" class="flow-text">{{ bill.amount }}</p><br>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="card-action row">
+                            <a onclick="edit({{ forloop.counter }})" class="white-text btn teal darken-2 col s12 m12 l5 left">Edit</a>
+                            <a onclick="del({{ forloop.counter }})" class="white-text btn right teal darken-2 col s12 m12 l5 right">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!--<div class="row">
+        <div class="card teal white-text">
+            <div class="card-content">Share value prediction</div>
+        </div>
+    </div>
+    <div class="row container">
+        <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Google</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 1111.88</p>
+                    <p><br></p>
+                    <p>Expected: 1129.74</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Cisco</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 40.1</p>
+                    <p><br></p>
+                    <p>Expected: 43.92</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Apple</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 175.28</p>
+                    <p><br></p>
+                    <p>Expected: 176.17</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Autodesk</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 113.26</p>
+                    <p><br></p>
+                    <p>Expected: 115.35</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Amazon</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 1276.68</p>
+                    <p><br></p>
+                    <p>Expected: 1513.69</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>IBM</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 164.2</p>
+                    <p><br></p>
+                    <p>Expected: 155.49</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Oracle</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 48.95</p>
+                    <p><br></p>
+                    <p>Expected: 50.49</p>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">insert_chart</i>Microsoft</div>
+                <div class="collapsible-body white-text teal">
+                    <p>Current: 88.08</p>
+                    <p><br></p>
+                    <p>Expected: 94.39</p>
+                </div>
+            </li>
+        </ul>
+
+    </div>-->
+
+    <script src="{% static 'money/particles.min.js' %}"></script>
+    <script src="{% static 'money/app.js' %}"></script>
+    <script>
+        {% if reset %}
+            $('ul.tabs').tabs('select_tab', 'test-swipe-1');
+        {% endif %}
+    </script>
+{% endblock %}
+
+{% block footer %}
+    <li><a class="white-text" href="{% url 'home:hub' %}">Home</a></li>
+{% endblock %}

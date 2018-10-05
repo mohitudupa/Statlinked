@@ -1,0 +1,28 @@
+{% extends "health/base.html" %}
+
+{% block title %}
+    Statlinked - Health
+{% endblock %}
+
+{% block bread %}
+    <a href="" class="breadcrumb">Home</a>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="{% url 'health:index' %}"><i class="material-icons prefix">receipt</i></a></li>
+{% endblock %}
+
+{% block side_nav %}
+    <li><a href="{% url 'health:index' %}"><i class="material-icons prefix">receipt</i></a></li>
+{% endblock %}
+
+{% block body %}
+    {% load staticfiles %}
+    <div>
+        <img class="responsive-img" src="{% static 'health/images/snow.jpg'%}">
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <li><a class="white-text" href="{% url 'health:index' %}">Home</a></li>
+{% endblock %}

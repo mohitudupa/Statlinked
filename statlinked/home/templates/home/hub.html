@@ -1,0 +1,479 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+    Statlinked - Hub
+{% endblock %}
+
+{% block bread %}
+    <a href="{% url 'home:index' %}" class="breadcrumb">Home</a>
+    <a href="" class="breadcrumb">Hub</a>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="{% url 'home:index' %}" class="black-text"><i class="material-icons prefix">receipt</i></a></li>
+    <li><a href="{% url 'home:hub' %}" class="black-text">Hub</a></li>
+    <li><a href="{% url 'home:user_logout' %}" class=" black-text"><i class="material-icons prefix">power_settings_new</i></a></li>
+{% endblock %}
+
+{% block side_nav %}
+    <li><a href="{% url 'home:index' %}"><i class="material-icons prefix">receipt</i></a></li>
+    <li><a href="{% url 'home:hub' %}">Hub</a></li>
+    <li><a href="{% url 'home:user_logout' %}"><i class="material-icons prefix">power_settings_new</i></a></li>
+{% endblock %}
+
+{% block body %}
+    <style>
+        #particles-js{
+        width: 100%;
+        height: 500px%;
+        {% load staticfiles %}
+        background-image: url('{% static 'home/images/Notes.png' %}');
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    </style>
+    <div class="container-for-images">
+        <div id="particles-js"></div>
+        <div class="centered-text-on-images">
+            <a href="{% url 'notes:index' %}" class="btn waves-effect waves-light red lighten-1btn">Notes</a>
+        </div>
+    </div>
+    <div class="section white">
+        <div class="row"></div>
+        <div class="row section">
+            <div class="col s12 m9 l9">
+                <div class="section container">
+                    <p class="flow-text">
+                        Notes<br><br>
+                        You can take quick notes of important things.<br><br>
+                        All your note will be synced to your account and can be accessed from any device.<br>
+
+                    </p>
+                </div>
+            </div>
+            <div class="col s12 m3 l3 center">
+                {% load staticfiles %}
+                <img class="responsive-img" src="{% static 'home/images/Notes-circle.png' %}">
+            </div>
+        </div>
+    </div>
+    <style>
+        #particles-js1{
+        width: 100%;
+        height: 500px;
+        {% load staticfiles %}
+        background-image: url('{% static 'home/images/Money.png' %}');
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    </style>
+    <div class="container-for-images">
+        <div id="particles-js1"></div>
+        <div class="centered-text-on-images">
+            <a href="{% url 'money:index' %}" class="btn waves-effect waves-light indigo lighten-1btn">Money</a>
+        </div>
+    </div>
+    <div class="section white">
+        <div class="row"></div>
+        <div class="row section">
+            <div class="col s12 m3 l3 center">
+                {% load staticfiles %}
+                <img class="responsive-img" src="{% static 'home/images/Money-circle.png' %}">
+            </div>
+            <div class="col s12 m9 l9">
+                <div class="section container">
+                    <p class="flow-text">
+                        Expense Tracking<br><br>
+                        You can keep track of your expenses by logging your spending.<br><br>
+                        All your logs will be synced to your account and can be accessed on any of your device by simply signing in.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #particles-js2{
+        width: 100%;
+        height: 500px;
+        {% load staticfiles %}
+        background-image: url('{% static 'home/images/Health.png' %}');
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    </style>
+    <div class="container-for-images">
+        <div id="particles-js2"></div>
+        <div class="centered-text-on-images">
+            <a href="{% url 'health:index' %}" class="btn waves-effect waves-light teal lighten-1btn">Health</a>
+        </div>
+    </div>
+    <div class="section white">
+        <div class="row"></div>
+        <div class="row section">
+            <div class="col s12 m9 l9">
+                <div class="section container">
+                    <p class="flow-text">
+                        Fitness Tracking<br><br>
+                        Track your fitness at ease with this tool.<br><br>
+                        All the logged information will be kept private and can only be accessed by logging in. Once logged all information will be available on any of your devices.<br>
+
+                    </p>
+                </div>
+            </div>
+            <div class="col s12 m3 l3 center">
+                {% load staticfiles %}
+                <img class="responsive-img" src="{% static 'home/images/Health-circle.png' %}">
+            </div>
+        </div>
+    </div>
+    {% load staticfiles %}
+    <script src="{% static 'home/particles.min.js' %}"></script>
+    <script>
+        particlesJS('particles-js',
+        {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": "#f44336"
+            },
+            "shape": {
+              "type": "circle",
+              "stroke": {
+                "width": 0,
+                "color": "#000000"
+              },
+              "polygon": {
+                "nb_sides": 5
+              },
+              "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+              }
+            },
+            "opacity": {
+              "value": 0.5,
+              "random": false,
+              "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+              }
+            },
+            "size": {
+              "value": 3,
+              "random": true,
+              "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+              }
+            },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": "#f44336",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 6,
+              "direction": "none",
+              "random": false,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false,
+              "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+              }
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": {
+                "enable": true,
+                "mode": "grab"
+              },
+              "onclick": {
+                "enable": false,
+                "mode": "push"
+              },
+              "resize": true
+            },
+            "modes": {
+              "grab": {
+                "distance": 150,
+                "line_linked": {
+                  "opacity": 1
+                }
+              },
+              "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+              },
+              "repulse": {
+                "distance": 200,
+                "duration": 0.4
+              },
+              "push": {
+                "particles_nb": 4
+              },
+              "remove": {
+                "particles_nb": 2
+              }
+            }
+          },
+          "retina_detect": true
+          }
+        );
+        particlesJS('particles-js1',
+        {
+          "particles": {
+            "number": {
+              "value": 80,
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": "#009688"
+            },
+            "shape": {
+              "type": "circle",
+              "stroke": {
+                "width": 0,
+                "color": "#000000"
+              },
+              "polygon": {
+                "nb_sides": 5
+              },
+              "image": {
+                "src": "img/github.svg",
+                "width": 100,
+                "height": 100
+              }
+            },
+            "opacity": {
+              "value": 0.5,
+              "random": false,
+              "anim": {
+                "enable": false,
+                "speed": 1,
+                "opacity_min": 0.1,
+                "sync": false
+              }
+            },
+            "size": {
+              "value": 3,
+              "random": true,
+              "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+              }
+            },
+            "line_linked": {
+              "enable": true,
+              "distance": 150,
+              "color": "#009688",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 6,
+              "direction": "none",
+              "random": false,
+              "straight": false,
+              "out_mode": "out",
+              "bounce": false,
+              "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+              }
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas",
+            "events": {
+              "onhover": {
+                "enable": true,
+                "mode": "grab"
+              },
+              "onclick": {
+                "enable": false,
+                "mode": "push"
+              },
+              "resize": true
+            },
+            "modes": {
+              "grab": {
+                "distance": 150,
+                "line_linked": {
+                  "opacity": 1
+                }
+              },
+              "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+              },
+              "repulse": {
+                "distance": 200,
+                "duration": 0.4
+              },
+              "push": {
+                "particles_nb": 4
+              },
+              "remove": {
+                "particles_nb": 2
+              }
+            }
+          },
+          "retina_detect": true
+          }
+        );
+
+        particlesJS('particles-js2',
+            {
+              "particles": {
+                "number": {
+                  "value": 80,
+                  "density": {
+                    "enable": true,
+                    "value_area": 800
+                  }
+                },
+                "color": {
+                  "value": "#ff9800"
+                },
+                "shape": {
+                  "type": "circle",
+                  "stroke": {
+                    "width": 0,
+                    "color": "#000000"
+                  },
+                  "polygon": {
+                    "nb_sides": 5
+                  },
+                  "image": {
+                    "src": "img/github.svg",
+                    "width": 100,
+                    "height": 100
+                  }
+                },
+                "opacity": {
+                  "value": 0.5,
+                  "random": false,
+                  "anim": {
+                    "enable": false,
+                    "speed": 1,
+                    "opacity_min": 0.1,
+                    "sync": false
+                  }
+                },
+                "size": {
+                  "value": 3,
+                  "random": true,
+                  "anim": {
+                    "enable": false,
+                    "speed": 40,
+                    "size_min": 0.1,
+                    "sync": false
+                  }
+                },
+                "line_linked": {
+                  "enable": true,
+                  "distance": 150,
+                  "color": "#ff9800",
+                  "opacity": 0.4,
+                  "width": 1
+                },
+                "move": {
+                  "enable": true,
+                  "speed": 6,
+                  "direction": "none",
+                  "random": false,
+                  "straight": false,
+                  "out_mode": "out",
+                  "bounce": false,
+                  "attract": {
+                    "enable": false,
+                    "rotateX": 600,
+                    "rotateY": 1200
+                  }
+                }
+              },
+              "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                  "onhover": {
+                    "enable": true,
+                    "mode": "grab"
+                  },
+                  "onclick": {
+                    "enable": false,
+                    "mode": "push"
+                  },
+                  "resize": true
+                },
+                "modes": {
+                  "grab": {
+                    "distance": 150,
+                    "line_linked": {
+                      "opacity": 1
+                    }
+                  },
+                  "bubble": {
+                    "distance": 400,
+                    "size": 40,
+                    "duration": 2,
+                    "opacity": 8,
+                    "speed": 3
+                  },
+                  "repulse": {
+                    "distance": 200,
+                    "duration": 0.4
+                  },
+                  "push": {
+                    "particles_nb": 4
+                  },
+                  "remove": {
+                    "particles_nb": 2
+                  }
+                }
+              },
+              "retina_detect": true
+            }
+        );
+    </script>
+{% endblock %}
+
+{% block footer %}
+    <li><a class="white-text" href="{% url 'home:index' %}">Home</a></li>
+    <li><a class="white-text" href="{% url 'home:hub' %}">Hub</a></li>
+    <li><a class="white-text" href="{% url 'home:user_logout' %}">Logout</a></li>
+{% endblock %}

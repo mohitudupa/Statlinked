@@ -1,0 +1,129 @@
+{% extends "home/base.html" %}
+
+{% block title %}
+    Statlinked - Register
+{% endblock %}
+
+{% block bread %}
+    <a href="{% url 'home:index' %}" class="breadcrumb">Home</a>
+    <a href="" class="breadcrumb">Register</a>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="{% url 'home:index' %}"><i class="material-icons prefix black-text">receipt</i></a></li>
+{% endblock %}
+
+{% block side_nav %}
+    <li><a href="{% url 'home:index' %}"><i class="material-icons prefix">receipt</i></a></li>
+{% endblock %}
+
+{% block body %}
+
+    <style>
+        #particles-js{
+        width: 100%;
+        height: 750px;
+        {% load staticfiles %}
+        background-image: url('{% static 'home/images/Home.png' %}');
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    </style>
+
+    <div class="container-for-images">
+        <div id="particles-js"></div>
+        <div class="container centered-text-on-images">
+            <div class="row">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="container">
+                            <h5 class="center indigo-text">Register</h5>
+                            <p class="center indigo-text">Please enter account details to continue</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="container">
+                            <form id="myform" class="card-panel" action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix black-text">account_circle</i>
+                                        <input id="username" onblur="valuser();" type="text" class="validate black-text" name="username">
+                                        <label for="email" class="black-text">Username</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix black-text">account_circle</i>
+                                        <input id="email" type="email" class="validate black-text" name="email">
+                                        <label for="email" class="black-text">Email</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix black-text">account_circle</i>
+                                        <input id="first" onblur="valfirst();" type="text" class="validate black-text" name="first">
+                                        <label for="first" class="black-text">First</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix black-text">account_circle</i>
+                                        <input id="last" onblur="vallast();" type="text" class="validate black-text" name="last">
+                                        <label for="last" class="black-text">Last</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix black-text">lock</i>
+                                        <input id="password" onblur="valpassword();" type="password" class="validate black-text" name="password">
+                                        <label for="password" class="black-text">Password</label>
+                                    </div>
+                                </div>
+                                <div class="center">
+                                    <button id="submit" class="btn waves-effect waves-light teal" type="submit" name="action">Submit
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var user = false;
+        var first = false;
+        var last = false;
+        var password = false;
+        function valuser(){
+            user = /^[A-Za-z0-9\.\' \-]{3,25}/.test(document.getElementById('username').value);
+        }
+        function valfirst(){
+            first = /^[A-Za-z\.\'\-]{1,25}/.test(document.getElementById('first').value);
+        }
+        function vallast(){
+            last = /^[A-Za-z\.\'\-]{1,25}/.test(document.getElementById('last').value);
+        }
+        function valpassword(){
+            password = /^.+/.test(document.getElementById('password').value);
+        }
+        document.getElementById("submit").addEventListener("click", function(event){
+            if(!(user && first && last && password))    event.preventDefault();
+        });
+
+    </script>
+    {% load staticfiles %}
+    <script src="{% static 'home/particles.min.js' %}"></script>
+    <script src="{% static 'home/app.js' %}"></script>
+{% endblock %}
+
+{% block footer %}
+    <li><a class="white-text" href="{% url 'home:index' %}">Home</a></li>
+{% endblock %}

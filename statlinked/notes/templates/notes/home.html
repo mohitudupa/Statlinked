@@ -1,0 +1,200 @@
+{% extends "notes/base.html" %}
+
+{% block title %}
+    Statlinked - Notes
+{% endblock %}
+
+{% block bread %}
+    <a href="{% url 'home:hub' %}" class="breadcrumb white-text">Hub</a>
+    <a href="" class="breadcrumb white-text">Notes</a>
+{% endblock %}
+
+{% block nav %}
+    <li><a href="{% url 'home:hub' %}"><i class="material-icons prefix black-text">receipt</i></a></li>
+    <li><a onclick="$('#modal_add').modal('open');" class="waves-effect waves-light btn"><i class="large material-icons">mode_edit</i></a></li>
+{% endblock %}
+
+{% block side_nav %}
+    <li><a href="{% url 'home:hub' %}"><i class="material-icons prefix black-text">receipt</i></a></li>
+    <li><a onclick="$('#modal_add').modal('open');" class="waves-effect waves-light btn"><i class="large material-icons">mode_edit</i></a></li>
+{% endblock %}
+
+{% block body %}
+    {% load staticfiles %}
+    <style>
+        #particles-js{
+        width: 100%;
+        height: 500px%;
+        {% load staticfiles %}
+        background-image: url('{% static 'home/images/Notes.png' %}');
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    </style>
+    <div class="fixed-action-btn">
+        <a onclick="$('#modal_add').modal('open');" class="btn-floating btn-large red">
+            <i class="large material-icons">mode_edit</i>
+        </a>
+    </div>
+    <div id="modal_add" class="modal indigo">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <div class="section">
+                        <form class="card-panel" action="{% url 'notes:add_note' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">title</i>
+                                    <input id="add_title" type="text" class="validate" name="title">
+                                    <label for="add_title">Title</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="add_body" type="text" class="validate" name="body">
+                                    <label for="add_body">Body</label>
+                                </div>
+                            </div>
+                            <div class="center">
+                                <button class="btn waves-effect waves-light teal" type="submit" name="action">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <div id="modal_edit" class="modal indigo">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <div class="section">
+                        <form class="card-panel" action="{% url 'notes:edit_note' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">title</i>
+                                    <input id="edit_title" type="text" class="validate" name="title" value="">
+                                    <label for="edit_title">Title</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">create</i>
+                                    <input id="edit_body" type="text" class="validate" name="body" value="">
+                                    <label for="edit_body">Body</label>
+                                </div>
+                            </div>
+                            <div class="center">
+                                <button id="edit_submit" class="btn waves-effect waves-light teal" type="submit" name="action" value = "">Submit
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <script>
+        function edit(id){
+            var title = document.getElementById('title' + id).innerHTML;
+            var body = document.getElementById('body' + id).innerHTML;
+            document.getElementById('edit_title').value = title;
+            document.getElementById('edit_body').value = body;
+            document.getElementById('edit_submit').value = id;
+            $('#modal_edit').modal('open');
+            Materialize.updateTextFields();
+        }
+    </script>
+
+    <div id="modal_del" class="modal indigo">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12">
+                    <div class="section">
+                        <form class="card-panel" action="{% url 'notes:del_note' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="center">
+                                <p>Are you sure you want to delete?</p>
+                                <button id="del_submit" class="btn waves-effect waves-light teal" type="submit" name="action" value="">Yes
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+    <script>
+        function del(id){
+            document.getElementById('del_submit').value = id;
+            $('#modal_del').modal('open');
+        }
+    </script>
+
+    <div class="container-for-images">
+        <div id="particles-js"></div>
+        <div class="centered-text-on-images">
+            <div class="row white-text">
+                <div class="col s12">
+                    <p>Take important notes in one place</p>
+                </div>
+                <div class="row"></div>
+                <div class="col s12">
+                    <p>access them from anywhere</p><br>
+                </div>
+                <div class="col s12">
+                    <a onclick="$('#modal_add').modal('open');" class="waves-effect waves-light btn">Add Note</a>
+                </div>
+                <div class="row"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="row">
+            {% for note in notes %}
+                <div class="col s12 m4 l3">
+                    <div class="card {{note.color}}">
+                        <div class="card-content white-text" style="height: 150px">
+                            <span id="title{{ forloop.counter }}" class="card-title flow-text">{{ note.title }}</span>
+                            <p id="body{{ forloop.counter }}">{{ note.body }}</p><br>
+                            <p>{{ note.written_date.day }}-{{ note.written_date.month }}-{{ note.written_date.year }}</p>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="card-action row">
+                            <a onclick="edit({{ forloop.counter }})" class="white-text btn {{ note.color }} darken-2 col s12 m12 l5 left">Edit</a>
+                            <a onclick="del({{ forloop.counter }})" class="white-text btn {{ note.color }} right darken-2 col s12 m12 l5 right">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{% static 'notes/particles.min.js' %}"></script>
+    <script src="{% static 'notes/app.js' %}"></script>
+
+{% endblock %}
+
+{% block footer %}
+    <li><a class="white-text" href="{% url 'notes:index' %}">Home</a></li>
+{% endblock %}

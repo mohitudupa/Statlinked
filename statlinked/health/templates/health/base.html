@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75"/>
+    <meta name="description" content="Health Tracking">
+
+    {% load staticfiles %}
+    <link rel="apple-touch-icon-precomposed" href="{% static 'health/images/152ico.png' %}">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="{% static 'health/images/144ico.png' %}">
+    <link rel="icon" href="{% static 'health/images/32ico.png' %}" sizes="32x32">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+</head>
+<body>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    {% load staticfiles %}
+    <script src="{% static 'health/init.js' %}"></script>
+    <nav>
+        <div class="nav-wrapper red lighten-1">
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <div class="row">
+                <div class="col s1"></div>
+                <div class="col s11">
+                    {% block bread %}
+
+                    {% endblock %}
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        {% block nav %}
+
+                        {% endblock %}
+                    </ul>
+                    <ul class="side-nav" id="mobile-demo">
+                        {% block side_nav %}
+
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <footer class="page-footer red accent-2">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Thank You For Using Our Service</h5>
+                    <p class="grey-text text-lighten-4">
+                        Footer yay!!!!!!
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        {% block footer %}
+
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                © 2017 Copyright Text
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
