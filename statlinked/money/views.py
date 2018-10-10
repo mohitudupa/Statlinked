@@ -192,7 +192,6 @@ def history(request):
         year = datetime.datetime.now().year
         if int(month) > datetime.datetime.now().month:
             year -= 1
-        print(chart1, chart2)
         return render(request, 'money/history.html',
                       {'bills': bills, 'month': month_name[month], 'year': year, 'misc': chart1['misc'],
                        'food': chart1['food'], 'utilities': chart1['utilities'], 'transport': chart1['transport'],

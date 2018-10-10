@@ -19,7 +19,6 @@ def index(request):
 def add_note(request):
     if request.user.is_authenticated and request.method == 'POST':
         x = dict(request.POST)
-        print(x)
         note = Note()
         cur_user = User.objects.get(id=request.user.id)
         note.user_id = cur_user
@@ -36,7 +35,6 @@ def add_note(request):
 def del_note(request):
     if request.user.is_authenticated and request.method == 'POST':
         x = dict(request.POST)
-        print(x)
         note_id = int(x['action'][0]) - 1
         cur_user = User.objects.get(id=request.user.id)
         note = Note.objects.filter(user_id=cur_user)[::-1][note_id]
@@ -48,7 +46,6 @@ def del_note(request):
 def edit_note(request):
     if request.user.is_authenticated and request.method == 'POST':
         x = dict(request.POST)
-        print(x)
         note_id = int(x['action'][0]) - 1
         cur_user = User.objects.get(id=request.user.id)
         note = Note.objects.filter(user_id=cur_user)[::-1][note_id]

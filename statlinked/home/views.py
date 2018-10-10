@@ -16,14 +16,11 @@ def index(request):
 def user_login(request):
     if request.method == 'POST':
         x = dict(request.POST)
-        print(x)
-        user = authenticate(request, username=x['email'][0], password=x['password'][0])
+        user = authenticate(username=x['email'][0], password=x['password'][0])
         if user is not None:
-            print("Present")
             login(request, user)
             return redirect('home:hub')
         else:
-            print("what")
             return render(request, 'home/user_login.html')
     else:
         if request.user.is_authenticated:
@@ -45,8 +42,7 @@ def hub(request):
 
 def register(request):
     if request.method == 'POST':
-        x = dict(request.POST)
-        print(x)
+        x = dict(request.POST)\
         username = x['username'][0]
         email = x['email'][0]
         first = x['first'][0]
@@ -55,7 +51,6 @@ def register(request):
         error = 0
         if len(username) == 0 or len(first) == 0 or len(last) == 0 or len(password) == 0:
             error = 1
-            print("what 1")
         try:
             User.objects.get(email=email)
             error = 1
@@ -81,7 +76,7 @@ def register(request):
         ud.user_id = user
         ud.t_date = datetime.date(datetm.year, datetm.month, datetm.day)
         ud.save()
-        print("done")
+
         return redirect('home:user_login')
     else:
         return render(request, 'home/register.html')
