@@ -42,7 +42,7 @@ def hub(request):
 
 def register(request):
     if request.method == 'POST':
-        x = dict(request.POST)\
+        x = dict(request.POST)
         username = x['username'][0]
         email = x['email'][0]
         first = x['first'][0]
